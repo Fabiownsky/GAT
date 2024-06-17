@@ -78,7 +78,7 @@ public class GridDisplay extends JPanel {
     }
 
     public static void createAndShowGui() {
-        JFrame frame = new JFrame("Grid Display");
+        JFrame frame = new JFrame("Guards And Thieves");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
