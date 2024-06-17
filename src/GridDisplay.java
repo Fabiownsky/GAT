@@ -113,8 +113,11 @@ public class GridDisplay extends JPanel {
         return panel;
     }
 
-    public static void updatePlayerInfo(String playerName, int steps) {
+    public static void updatePlayerName(String playerName) {
         playerNameLabel.setText(playerName);
+    }
+
+    public static void updateSteps(int steps) {
         stepsLabel.setText("Passi: " + steps);
     }
 }
