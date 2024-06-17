@@ -15,6 +15,6 @@ public class Main {
         }
 
         // Avvia l'applicazione Swing
-        SwingUtilities.invokeLater(() -> GridDisplay.createAndShowGui());
+        SwingUtilities.invokeLater(GridDisplay::createAndShowGui);
     }
 }

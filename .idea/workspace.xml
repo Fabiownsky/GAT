@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fbca34f-a86c-46d7-bdef-c58570eebe96" name="Changes" comment="Added test files + assets folder">
+    <list default="true" id="6fbca34f-a86c-46d7-bdef-c58570eebe96" name="Changes" comment="Added GridDisplay and ImageAnalyzer classes. ImageAnalyzer for reading an image and create a matrix with rgb values, GridDisplay for using that matrix and showing the GUI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GridDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GridDisplay.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/Sprite-0001.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/Sprite-0001.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +119,7 @@
       <workItem from="1718020446784" duration="2475000" />
       <workItem from="1718376758629" duration="510000" />
       <workItem from="1718378312938" duration="660000" />
-      <workItem from="1718627772803" duration="3539000" />
+      <workItem from="1718627772803" duration="5832000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -153,7 +153,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718627872680</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added GridDisplay and ImageAnalyzer classes. ImageAnalyzer for reading an image and create a matrix with rgb values, GridDisplay for using that matrix and showing the GUI">
+      <option name="closed" value="true" />
+      <created>1718631584834</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1718631584834</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,6 +181,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Added test files + assets folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added test files + assets folder" />
+    <MESSAGE value="Added GridDisplay and ImageAnalyzer classes. ImageAnalyzer for reading an image and create a matrix with rgb values, GridDisplay for using that matrix and showing the GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added GridDisplay and ImageAnalyzer classes. ImageAnalyzer for reading an image and create a matrix with rgb values, GridDisplay for using that matrix and showing the GUI" />
   </component>
 </project>
