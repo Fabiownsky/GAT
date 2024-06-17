@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6fbca34f-a86c-46d7-bdef-c58570eebe96" name="Changes" comment="Added GridDisplay and ImageAnalyzer classes. ImageAnalyzer for reading an image and create a matrix with rgb values, GridDisplay for using that matrix and showing the GUI">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/GridDisplay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/GridDisplay.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-    </list>
+    <list default="true" id="6fbca34f-a86c-46d7-bdef-c58570eebe96" name="Changes" comment="Fixes and tests" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -119,7 +115,7 @@
       <workItem from="1718020446784" duration="2475000" />
       <workItem from="1718376758629" duration="510000" />
       <workItem from="1718378312938" duration="660000" />
-      <workItem from="1718627772803" duration="8282000" />
+      <workItem from="1718627772803" duration="8606000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
@@ -177,7 +173,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718634518418</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Fixes and tests">
+      <option name="closed" value="true" />
+      <created>1718636377886</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1718636377886</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -198,6 +202,7 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Added test files + assets folder" />
     <MESSAGE value="Added GridDisplay and ImageAnalyzer classes. ImageAnalyzer for reading an image and create a matrix with rgb values, GridDisplay for using that matrix and showing the GUI" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added GridDisplay and ImageAnalyzer classes. ImageAnalyzer for reading an image and create a matrix with rgb values, GridDisplay for using that matrix and showing the GUI" />
+    <MESSAGE value="Fixes and tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixes and tests" />
   </component>
 </project>

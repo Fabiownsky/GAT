@@ -18,12 +18,21 @@ public class GridDisplay extends JPanel {
 
         int cellSize = 10; // Dimensione delle celle
         int spacing = 2;   // Spaziatura tra le celle
+        Font originalFont = g.getFont();
+        Font smallFont = originalFont.deriveFont(8f); // Font di dimensione 8
 
         if (matrix != null) {
             for (int y = 0; y < matrix.length; y++) {
                 for (int x = 0; x < matrix[y].length; x++) {
-                    g.setColor(getColor(matrix[y][x]));
+                    int value = matrix[y][x];
+                    g.setColor(getColor(value));
                     g.fillRect(PADDING + x * (cellSize + spacing), PADDING + y * (cellSize + spacing), cellSize, cellSize);
+
+                    if (value >= 2 && value <= 5) { // Solo per i colori viola, giallo, verde, rosso
+                        g.setFont(smallFont); // Imposta il font piccolo
+                        drawCenteredString(g, getLetter(value), PADDING + x * (cellSize + spacing), PADDING + y * (cellSize + spacing), cellSize, cellSize);
+                        g.setFont(originalFont); // Ripristina il font originale
+                    }
                 }
             }
         }
@@ -39,6 +48,33 @@ public class GridDisplay extends JPanel {
             case 5: return Color.RED;    // rosso (guardia va nella direzione che porta all’uscita)
             default: return Color.GRAY;  // colore non specificato
         }
+    }
+
+    private String getLetter(int value) {
+        switch (value) {
+            case 2: return "V"; // viola (ladro)
+            case 3: return "G"; // giallo (guardia va in una direzione casuale per 10 secondi)
+            case 4: return "V"; // verde (guardia va nella direzione opposta al ladro per 10 secondi)
+            case 5: return "R"; // rosso (guardia va nella direzione che porta all’uscita)
+            default: return "";
+        }
+    }
+
+    private void drawCenteredString(Graphics g, String text, int x, int y, int width, int height) {
+        FontMetrics metrics = g.getFontMetrics();
+        int centerX = x + (width - metrics.stringWidth(text)) / 2;
+        int centerY = y + ((height - metrics.getHeight()) / 2) + metrics.getAscent();
+
+        // Disegna il contorno bianco
+        g.setColor(Color.WHITE);
+        g.drawString(text, centerX - 1, centerY);
+        g.drawString(text, centerX + 1, centerY);
+        g.drawString(text, centerX, centerY - 1);
+        g.drawString(text, centerX, centerY + 1);
+
+        // Disegna il testo nero sopra il contorno
+        g.setColor(Color.BLACK);
+        g.drawString(text, centerX, centerY);
     }
 
     public static void createAndShowGui() {
