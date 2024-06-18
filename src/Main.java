@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
-
+//Master
 public class Main {
 
     public static void main(String[] args) {
