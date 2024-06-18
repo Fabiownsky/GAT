@@ -23,7 +23,7 @@ public class Main {
             GridDisplay.updateSteps(0);
         });
 
-
+        //Test per incrementare gli step
         for(int i = 0; i < 100; i++) {
             try {
                 sleep(1000);

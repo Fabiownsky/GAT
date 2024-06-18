@@ -28,7 +28,7 @@ public class GridDisplay extends JPanel {
                     g.setColor(getColor(value));
                     g.fillRect(PADDING + x * (cellSize + spacing), PADDING + y * (cellSize + spacing), cellSize, cellSize);
 
-                    if (value >= 2 && value <= 5) { // Solo per i colori viola, giallo, verde, rosso
+                    if (value >= 2 && value <= 7) { // Solo per i colori specificati
                         g.setFont(smallFont); // Imposta il font piccolo
                         drawCenteredString(g, getLetter(value), PADDING + x * (cellSize + spacing), PADDING + y * (cellSize + spacing), cellSize, cellSize);
                         g.setFont(originalFont); // Ripristina il font originale
@@ -40,22 +40,26 @@ public class GridDisplay extends JPanel {
 
     private Color getColor(int value) {
         switch (value) {
-            case 0: return Color.WHITE;  // bianco
-            case 1: return Color.BLACK;  // nero
-            case 2: return new Color(128, 0, 128); // viola (ladro)
-            case 3: return Color.YELLOW; // giallo (guardia va in una direzione casuale per 10 secondi)
-            case 4: return Color.GREEN;  // verde (guardia va nella direzione opposta al ladro per 10 secondi)
-            case 5: return Color.RED;    // rosso (guardia va nella direzione che porta all’uscita)
+            case 0: return Color.WHITE;  // white (pavimento)
+            case 1: return Color.BLACK;  // black (muro)
+            case 2: return Color.RED;    // red
+            case 3: return Color.YELLOW; // yellow
+            case 4: return Color.GREEN;  // green
+            case 5: return Color.BLUE;   // blue (poliziotto)
+            case 6: return Color.ORANGE; // orange (ladro)
+            case 7: return new Color(139, 69, 19); // brown
             default: return Color.GRAY;  // colore non specificato
         }
     }
 
     private String getLetter(int value) {
         switch (value) {
-            case 2: return "V"; // viola (ladro)
-            case 3: return "G"; // giallo (guardia va in una direzione casuale per 10 secondi)
-            case 4: return "V"; // verde (guardia va nella direzione opposta al ladro per 10 secondi)
-            case 5: return "R"; // rosso (guardia va nella direzione che porta all’uscita)
+            case 2: return "R"; // red
+            case 3: return "Y"; // yellow
+            case 4: return "G"; // green
+            case 5: return "P"; // blue (poliziotto)
+            case 6: return "T"; // orange (ladro)
+            case 7: return "B"; // brown
             default: return "";
         }
     }
@@ -78,7 +82,7 @@ public class GridDisplay extends JPanel {
     }
 
     public static void createAndShowGui() {
-        JFrame frame = new JFrame("Guards And Thieves");
+        JFrame frame = new JFrame("Grid Display");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -111,10 +115,12 @@ public class GridDisplay extends JPanel {
         panel.add(legendTitle);
         panel.add(Box.createRigidArea(new Dimension(0, 10))); // Spazio tra il titolo e le voci
 
-        panel.add(createLegendItem("Ladro", new Color(128, 0, 128)));
-        panel.add(createLegendItem("Guardia (casuale 10s)", Color.YELLOW));
-        panel.add(createLegendItem("Guardia (opposta 10s)", Color.GREEN));
-        panel.add(createLegendItem("Guardia (verso uscita)", Color.RED));
+        panel.add(createLegendItem("Guardia - Uscita", Color.RED));
+        panel.add(createLegendItem("Guardia - Casuale", Color.YELLOW));
+        panel.add(createLegendItem("Guardia - Opposta", Color.GREEN));
+        panel.add(createLegendItem("Guardia", Color.BLUE));
+        panel.add(createLegendItem("Ladro", Color.ORANGE));
+        panel.add(createLegendItem("Uscita", new Color(139, 69, 19)));
 
         panel.add(Box.createVerticalGlue()); // Spazio flessibile per spingere in basso i campi del giocatore
 
