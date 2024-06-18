@@ -7,9 +7,14 @@ public class GridDisplay extends JPanel {
     private static final int PADDING = 20; // Padding costante
     private static JLabel playerNameLabel;
     private static JLabel stepsLabel;
+    private static boolean isColorblindMode = true; // Modalità daltonica (falsa di default)
 
     public static void setMatrix(int[][] matrix) {
         GridDisplay.matrix = matrix;
+    }
+
+    public static void setColorblindMode(boolean isColorblind) {
+        isColorblindMode = isColorblind;
     }
 
     @Override
@@ -28,7 +33,7 @@ public class GridDisplay extends JPanel {
                     g.setColor(getColor(value));
                     g.fillRect(PADDING + x * (cellSize + spacing), PADDING + y * (cellSize + spacing), cellSize, cellSize);
 
-                    if (value >= 2 && value <= 7) { // Solo per i colori specificati
+                    if (isColorblindMode && value >= 2 && value <= 7) { // Solo per i colori specificati in modalità daltonica
                         g.setFont(smallFont); // Imposta il font piccolo
                         drawCenteredString(g, getLetter(value), PADDING + x * (cellSize + spacing), PADDING + y * (cellSize + spacing), cellSize, cellSize);
                         g.setFont(originalFont); // Ripristina il font originale
