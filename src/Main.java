@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 
 public class Main {
 
@@ -8,17 +9,29 @@ public class Main {
         try {
             String imagePath = "src/assets/lab50x50.png";
             int[][] matrix = ImageAnalyzer.analyzeImage(imagePath);
-            Game game = new Game(matrix);
-
-            // Avvia l'applicazione Swing
-            SwingUtilities.invokeLater(() -> {
-                GameGUI gameGUI = new GameGUI(game);
-                gameGUI.createAndShowGui();
-                GameGUI.updatePlayerName("Fabio Porcelli");
-                GameGUI.updateSteps(0);
-            });
+            GridDisplay.setMatrix(matrix);
         } catch (IOException e) {
             e.printStackTrace();
+            return;
+        }
+
+        // Avvia l'applicazione Swing
+        SwingUtilities.invokeLater(() -> {
+            GridDisplay.createAndShowGui();
+            // Esempio di aggiornamento delle informazioni del giocatore
+            GridDisplay.updatePlayerName("Fabio Porcelli");
+            GridDisplay.updateSteps(0);
+        });
+
+        //Test per incrementare gli step
+        for(int i = 0; i < 100; i++) {
+            try {
+                sleep(1000);
+                GridDisplay.updateSteps(i);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            GridDisplay.updateSteps(i);
         }
     }
 }
