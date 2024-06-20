@@ -38,9 +38,9 @@ public class ImageAnalyzer {
         } else if (red == 0 && green == 255 && blue == 0) {
             return 4; // green
         } else if (red == 0 && green == 0 && blue == 255) {
-            return 5; // blue (poliziotto)
+            return 5; // blue
         } else if (red == 255 && green == 165 && blue == 0) {
-            return 6; // orange (ladro)
+            return 6; // orange
         } else if (red == 139 && green == 69 && blue == 19) {
             return 7; // brown
         } else {
