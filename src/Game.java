@@ -5,9 +5,11 @@ public class Game {
     private List<Observer> observers = new ArrayList<>();
     private int[][] matrix;
     private int thiefX, thiefY;
+    private int steps;
 
     public Game(int[][] matrix) {
         this.matrix = matrix;
+        this.steps = 0;
         // Trova la posizione iniziale del ladro (arancione)
         for (int y = 0; y < matrix.length; y++) {
             for (int x = 0; x < matrix[y].length; x++) {
@@ -45,6 +47,7 @@ public class Game {
             thiefY = newY;
             // Imposta il nuovo colore del ladro nella matrice
             matrix[thiefY][thiefX] = 6;
+            steps++;
             notifyObservers();
         }
     }
@@ -53,7 +56,7 @@ public class Game {
         return matrix[y][x] != 1; // Verifica che la nuova posizione non sia un muro
     }
 
-    // Getters per la posizione del ladro
+    // Getters per la posizione del ladro e il numero di passi
     public int getThiefX() {
         return thiefX;
     }
@@ -62,7 +65,15 @@ public class Game {
         return thiefY;
     }
 
+    public int getSteps() {
+        return steps;
+    }
+
     public int[][] getMatrix() {
         return matrix;
+    }
+
+    public void endGame(String playerName) {
+        LeaderboardGUI.addScore(playerName, steps);
     }
 }

@@ -1,0 +1,10 @@
+Alice,150
+Bob,200
+Charlie,175
+David,190
+Eve,160
+Frank,180
+Grace,170
+Hank,185
+Ivy,155
+John,165
