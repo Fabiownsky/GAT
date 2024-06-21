@@ -41,7 +41,7 @@ public class LeaderboardGUI {
                     leaderboard.add(new PlayerScore(name, score));
                 }
             }
-            Collections.sort(leaderboard);
+            Collections.sort(leaderboard); // Ordina la lista in modo crescente
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,7 +51,7 @@ public class LeaderboardGUI {
     public static void addScore(String name, int score) {
         List<PlayerScore> leaderboard = new LeaderboardGUI().loadLeaderboard();
         leaderboard.add(new PlayerScore(name, score));
-        Collections.sort(leaderboard);
+        Collections.sort(leaderboard); // Ordina la lista in modo crescente
         if (leaderboard.size() > 10) {
             leaderboard = leaderboard.subList(0, 10);
         }
