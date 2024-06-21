@@ -19,11 +19,16 @@ public class MainMenu {
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    int[][] matrix = loadMatrix();
-                    new GameGUI(new Game(matrix)).createAndShowGui();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+                String playerName = JOptionPane.showInputDialog(frame, "Enter your name:");
+                if (playerName != null && !playerName.trim().isEmpty()) {
+                    try {
+                        int[][] matrix = loadMatrix();
+                        Game game = new Game(matrix);
+                        game.setPlayerName(playerName);
+                        new GameGUI(game).createAndShowGui();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         });

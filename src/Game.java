@@ -6,6 +6,7 @@ public class Game {
     private int[][] matrix;
     private int thiefX, thiefY;
     private int steps;
+    private String playerName; // Aggiungi il nome del giocatore
 
     public Game(int[][] matrix) {
         this.matrix = matrix;
@@ -73,7 +74,16 @@ public class Game {
         return matrix;
     }
 
-    public void endGame(String playerName) {
+    // Getter e setter per il nome del giocatore
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
+    }
+
+    public void endGame() {
         LeaderboardGUI.addScore(playerName, steps);
     }
 }
