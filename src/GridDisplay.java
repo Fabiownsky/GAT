@@ -49,6 +49,10 @@ public class GridDisplay extends JPanel implements Observer {
             // Disegna il ladro
             g.setColor(Color.ORANGE);
             g.fillRect(PADDING + game.getThiefX() * (cellSize + spacing), PADDING + game.getThiefY() * (cellSize + spacing), cellSize, cellSize);
+
+            // Disegna la guardia
+            g.setColor(Color.BLUE);
+            g.fillRect(PADDING + game.getGuardX() * (cellSize + spacing), PADDING + game.getGuardY() * (cellSize + spacing), cellSize, cellSize);
         }
     }
 

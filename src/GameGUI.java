@@ -32,8 +32,11 @@ public class GameGUI {
             frame.setSize(800, 600); // Dimensione predefinita
         }
 
-        gridPanel.updatePlayerName(game.getPlayerName()); // Aggiorna il nome del giocatore
         frame.setVisible(true);
+        gridPanel.updatePlayerName(game.getPlayerName());
+
+        // Imposta il riferimento alla finestra di gioco
+        game.setGameFrame(frame);
 
         // Aggiungi listener per l'input da tastiera
         frame.addKeyListener(new KeyAdapter() {

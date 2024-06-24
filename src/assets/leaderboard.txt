@@ -1,10 +1,10 @@
+Fiabo,47
+Fabio,48
+Gino,49
+Fabio,59
+Fabio,59
 Alice,150
-Bob,200
-Charlie,175
-David,190
-Eve,160
-Frank,180
-Grace,170
-Hank,185
 Ivy,155
+Eve,160
 John,165
+Grace,170
