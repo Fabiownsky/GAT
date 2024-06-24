@@ -4,7 +4,7 @@ import java.util.List;
 public class Game {
     private List<Observer> observers = new ArrayList<>();
     private int[][] matrix;
-    private int thiefX, thiefY;
+    private Thief thief;
     private int steps;
     private String playerName; // Aggiungi il nome del giocatore
 
@@ -15,8 +15,7 @@ public class Game {
         for (int y = 0; y < matrix.length; y++) {
             for (int x = 0; x < matrix[y].length; x++) {
                 if (matrix[y][x] == 6) { // 6 è il codice per il colore arancione (ladro)
-                    this.thiefX = x;
-                    this.thiefY = y;
+                    this.thief = new Thief(matrix, x, y);
                     break;
                 }
             }
@@ -38,32 +37,18 @@ public class Game {
     }
 
     public void moveThief(int dx, int dy) {
-        int newX = thiefX + dx;
-        int newY = thiefY + dy;
-        if (canMove(newX, newY)) {
-            // Ripristina il colore della posizione precedente
-            matrix[thiefY][thiefX] = 0; // Supponiamo che il pavimento sia bianco (0)
-            // Aggiorna la posizione del ladro
-            thiefX = newX;
-            thiefY = newY;
-            // Imposta il nuovo colore del ladro nella matrice
-            matrix[thiefY][thiefX] = 6;
-            steps++;
-            notifyObservers();
-        }
-    }
-
-    private boolean canMove(int x, int y) {
-        return matrix[y][x] != 1; // Verifica che la nuova posizione non sia un muro
+        thief.move(dx, dy);
+        steps++;
+        notifyObservers();
     }
 
     // Getters per la posizione del ladro e il numero di passi
     public int getThiefX() {
-        return thiefX;
+        return thief.getX();
     }
 
     public int getThiefY() {
-        return thiefY;
+        return thief.getY();
     }
 
     public int getSteps() {
