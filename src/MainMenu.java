@@ -23,6 +23,7 @@ public class MainMenu {
                 if (playerName != null && !playerName.trim().isEmpty()) {
                     try {
                         int[][] matrix = loadMatrix();
+                        Thief.resetInstance(); // Reimposta il singleton per un nuovo gioco
                         Game game = new Game(matrix);
                         game.setPlayerName(playerName);
                         new GameGUI(game).createAndShowGui();

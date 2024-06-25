@@ -18,16 +18,20 @@ public class Game {
         this.steps = 0;
         this.gameEnded = false;
         // Trova la posizione iniziale del ladro (arancione) e della guardia (blu)
+        int startX = -1;
+        int startY = -1;
         for (int y = 0; y < matrix.length; y++) {
             for (int x = 0; x < matrix[y].length; x++) {
                 if (matrix[y][x] == 6) { // 6 è il codice per il colore arancione (ladro)
-                    this.thief = new Thief(matrix, x, y);
+                    startX = x;
+                    startY = y;
                 }
                 if (matrix[y][x] == 5) { // 5 è il codice per il colore blu (guardia)
                     this.guard = new Guard(matrix, x, y);
                 }
             }
         }
+        this.thief = Thief.getInstance(matrix, startX, startY);
     }
 
     public void addObserver(Observer observer) {

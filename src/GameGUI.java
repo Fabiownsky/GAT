@@ -33,7 +33,6 @@ public class GameGUI {
         }
 
         frame.setVisible(true);
-        gridPanel.updatePlayerName(game.getPlayerName());
 
         // Imposta il riferimento alla finestra di gioco
         game.setGameFrame(frame);

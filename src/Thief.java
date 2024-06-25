@@ -1,8 +1,16 @@
 public class Thief extends Character {
+    private static Thief instance;
 
-    public Thief(int[][] matrix, int startX, int startY) {
+    private Thief(int[][] matrix, int startX, int startY) {
         super(matrix, startX, startY);
         matrix[startY][startX] = 6; // Imposta la posizione iniziale del ladro (arancione)
+    }
+
+    public static Thief getInstance(int[][] matrix, int startX, int startY) {
+        if (instance == null) {
+            instance = new Thief(matrix, startX, startY);
+        }
+        return instance;
     }
 
     @Override
@@ -19,5 +27,10 @@ public class Thief extends Character {
             y = newY;
             matrix[y][x] = 6; // Aggiorna la posizione del ladro nella matrice
         }
+    }
+
+    // Metodo per reimpostare l'istanza per i test o nuovi giochi
+    public static void resetInstance() {
+        instance = null;
     }
 }
