@@ -16,6 +16,7 @@ public class Game {
     private int exitX, exitY; // Coordinate dell'uscita
 
     public Game(int[][] matrix) {
+        Thief.resetInstance(); // Resetta l'istanza del ladro all'inizio di una nuova partita
         this.matrix = matrix;
         this.steps = 0;
         this.gameEnded = false;

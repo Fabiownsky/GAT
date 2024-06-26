@@ -22,6 +22,7 @@ public class MainMenu {
                 String playerName = JOptionPane.showInputDialog(frame, "Enter your name:");
                 if (playerName != null && !playerName.trim().isEmpty()) {
                     try {
+                        Thief.resetInstance(); // Resetta l'istanza del ladro all'inizio di una nuova partita
                         int[][] matrix = loadMatrix();
                         Game game = new Game(matrix);
                         game.setPlayerName(playerName);

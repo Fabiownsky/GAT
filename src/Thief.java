@@ -13,6 +13,10 @@ public class Thief extends Character {
         return instance;
     }
 
+    public static void resetInstance() {
+        instance = null;
+    }
+
     @Override
     public void move(int dx, int dy) {
         int newX = x + dx;
@@ -28,10 +32,5 @@ public class Thief extends Character {
                 matrix[y][x] = 6; // Aggiorna la posizione del ladro nella matrice
             }
         }
-    }
-
-    // Metodo per reimpostare l'istanza per i test o nuovi giochi
-    public static void resetInstance() {
-        instance = null;
     }
 }

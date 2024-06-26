@@ -1,10 +1,10 @@
+Piox,18
 Fiabo,47
 Fabio,47
 Fabio,47
 Fabio,48
 Mattia,48
 Ramarro,48
-Genny,48
-Gino,49
-Fiabo,50
-Giulio,58
+Gino,48
+Gino3,48
+Genny,65
