@@ -23,10 +23,10 @@ public class MainMenu {
                 if (playerName != null && !playerName.trim().isEmpty()) {
                     try {
                         int[][] matrix = loadMatrix();
-                        Thief.resetInstance(); // Reimposta il singleton per un nuovo gioco
                         Game game = new Game(matrix);
                         game.setPlayerName(playerName);
-                        new GameGUI(game).createAndShowGui();
+                        GameGUI gameGUI = new GameGUI(game);
+                        game.setGameFrame(gameGUI.createAndShowGui());
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -39,7 +39,7 @@ public class MainMenu {
         leaderboardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new LeaderboardGUI().showLeaderboard();
+                new LeaderboardGUI().showLeaderboard(null);
             }
         });
         panel.add(leaderboardButton);

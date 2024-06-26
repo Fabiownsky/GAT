@@ -18,14 +18,15 @@ public class Thief extends Character {
         int newX = x + dx;
         int newY = y + dy;
         if (canMove(newX, newY)) {
-            if (matrix[newY][newX] == 7) { // 7 è il codice per il colore marrone (uscita)
-                // Ladro raggiunge l'uscita
-                return;
+            if (matrix[newY][newX] == 7) { // Verifica se il ladro raggiunge l'uscita
+                x = newX;
+                y = newY;
+            } else {
+                matrix[y][x] = 0; // Supponiamo che il pavimento sia bianco (0)
+                x = newX;
+                y = newY;
+                matrix[y][x] = 6; // Aggiorna la posizione del ladro nella matrice
             }
-            matrix[y][x] = 0; // Supponiamo che il pavimento sia bianco (0)
-            x = newX;
-            y = newY;
-            matrix[y][x] = 6; // Aggiorna la posizione del ladro nella matrice
         }
     }
 

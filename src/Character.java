@@ -1,12 +1,17 @@
 public abstract class Character {
-    protected int x;
-    protected int y;
     protected int[][] matrix;
+    protected int x, y;
 
     public Character(int[][] matrix, int startX, int startY) {
         this.matrix = matrix;
         this.x = startX;
         this.y = startY;
+    }
+
+    public abstract void move(int dx, int dy);
+
+    protected boolean canMove(int x, int y) {
+        return x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length && matrix[y][x] != 1;
     }
 
     public int getX() {
@@ -15,11 +20,5 @@ public abstract class Character {
 
     public int getY() {
         return y;
-    }
-
-    public abstract void move(int dx, int dy);
-
-    protected boolean canMove(int newX, int newY) {
-        return matrix[newY][newX] != 1; // Verifica che la nuova posizione non sia un muro
     }
 }

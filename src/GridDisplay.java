@@ -15,6 +15,9 @@ public class GridDisplay extends JPanel implements Observer {
         // Inizializza i componenti GUI
         this.setLayout(new BorderLayout());
 
+        JPanel legendPanel = createLegendPanel();
+        this.add(legendPanel, BorderLayout.EAST);
+
         updatePlayerName(game.getPlayerName()); // Aggiorna il nome del giocatore
     }
 
@@ -49,10 +52,6 @@ public class GridDisplay extends JPanel implements Observer {
             // Disegna il ladro
             g.setColor(Color.ORANGE);
             g.fillRect(PADDING + game.getThiefX() * (cellSize + spacing), PADDING + game.getThiefY() * (cellSize + spacing), cellSize, cellSize);
-
-            // Disegna la guardia
-            g.setColor(Color.BLUE);
-            g.fillRect(PADDING + game.getGuardX() * (cellSize + spacing), PADDING + game.getGuardY() * (cellSize + spacing), cellSize, cellSize);
         }
     }
 
@@ -97,24 +96,6 @@ public class GridDisplay extends JPanel implements Observer {
         // Disegna il testo nero sopra il contorno
         g.setColor(Color.BLACK);
         g.drawString(text, centerX, centerY);
-    }
-
-    public void updatePlayerName(String playerName) {
-        if (playerNameLabel != null) {
-            playerNameLabel.setText(playerName);
-        }
-    }
-
-    public void updateSteps(int steps) {
-        if (stepsLabel != null) {
-            stepsLabel.setText("Passi: " + steps);
-        }
-    }
-
-    @Override
-    public void update() {
-        updateSteps(game.getSteps());
-        repaint();
     }
 
     public JPanel createLegendPanel() {
@@ -165,5 +146,23 @@ public class GridDisplay extends JPanel implements Observer {
         panel.add(Box.createRigidArea(new Dimension(10, 0))); // Spazio tra il colore e il testo
         panel.add(label);
         return panel;
+    }
+
+    public void updatePlayerName(String playerName) {
+        if (playerNameLabel != null) {
+            playerNameLabel.setText(playerName);
+        }
+    }
+
+    public void updateSteps(int steps) {
+        if (stepsLabel != null) {
+            stepsLabel.setText("Passi: " + steps);
+        }
+    }
+
+    @Override
+    public void update() {
+        updateSteps(game.getSteps());
+        repaint();
     }
 }

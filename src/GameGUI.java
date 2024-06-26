@@ -4,23 +4,20 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class GameGUI {
-    private JFrame frame;
     private Game game;
+    private GridDisplay gridDisplay;
 
     public GameGUI(Game game) {
         this.game = game;
+        this.gridDisplay = new GridDisplay(game);
     }
 
-    public void createAndShowGui() {
-        frame = new JFrame("Grid Display");
+    public JFrame createAndShowGui() {
+        JFrame frame = new JFrame("Grid Display");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        GridDisplay gridPanel = new GridDisplay(game);
-        frame.add(gridPanel, BorderLayout.CENTER);
-
-        JPanel legendPanel = gridPanel.createLegendPanel();
-        frame.add(legendPanel, BorderLayout.EAST);
+        frame.add(gridDisplay, BorderLayout.CENTER);
 
         if (game.getMatrix() != null) {
             int cellSize = 10; // Dimensione delle celle
@@ -32,12 +29,6 @@ public class GameGUI {
             frame.setSize(800, 600); // Dimensione predefinita
         }
 
-        frame.setVisible(true);
-
-        // Imposta il riferimento alla finestra di gioco
-        game.setGameFrame(frame);
-
-        // Aggiungi listener per l'input da tastiera
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -57,5 +48,8 @@ public class GameGUI {
                 }
             }
         });
+
+        frame.setVisible(true);
+        return frame;
     }
 }

@@ -12,26 +12,34 @@ public class Game {
     private String playerName; // Aggiungi il nome del giocatore
     private boolean gameEnded; // Indica se il gioco è terminato
     private JFrame gameFrame; // Riferimento alla finestra di gioco
+    private Graph graph; // Rappresentazione del grafo del labirinto
+    private int exitX, exitY; // Coordinate dell'uscita
 
     public Game(int[][] matrix) {
         this.matrix = matrix;
         this.steps = 0;
         this.gameEnded = false;
-        // Trova la posizione iniziale del ladro (arancione) e della guardia (blu)
-        int startX = -1;
-        int startY = -1;
+
+        // Trova la posizione iniziale del ladro (arancione), della guardia (blu) e dell'uscita (marrone)
+        int thiefX = -1, thiefY = -1, guardX = -1, guardY = -1;
         for (int y = 0; y < matrix.length; y++) {
             for (int x = 0; x < matrix[y].length; x++) {
                 if (matrix[y][x] == 6) { // 6 è il codice per il colore arancione (ladro)
-                    startX = x;
-                    startY = y;
-                }
-                if (matrix[y][x] == 5) { // 5 è il codice per il colore blu (guardia)
-                    this.guard = new Guard(matrix, x, y);
+                    thiefX = x;
+                    thiefY = y;
+                } else if (matrix[y][x] == 5) { // 5 è il codice per il colore blu (guardia)
+                    guardX = x;
+                    guardY = y;
+                } else if (matrix[y][x] == 7) { // 7 è il codice per il colore marrone (uscita)
+                    exitX = x;
+                    exitY = y;
                 }
             }
         }
-        this.thief = Thief.getInstance(matrix, startX, startY);
+
+        this.graph = new Graph(matrix);
+        this.thief = Thief.getInstance(matrix, thiefX, thiefY);
+        this.guard = new Guard(matrix, guardX, guardY, graph, exitX, exitY);
     }
 
     public void addObserver(Observer observer) {
@@ -49,19 +57,26 @@ public class Game {
     }
 
     public void moveThief(int dx, int dy) {
-        if (!gameEnded && matrix[thief.getY() + dy][thief.getX() + dx] == 7) {
-            endGame(true);
-        } else {
-            thief.move(dx, dy);
-            steps++;
-            notifyObservers();
-            checkEndGame();
+        if (!gameEnded) {
+            int newX = thief.getX() + dx;
+            int newY = thief.getY() + dy;
+            if (canMove(newX, newY)) {
+                thief.move(dx, dy);
+                steps++;
+                notifyObservers();
+                checkEndGame(); // Controlla la fine del gioco dopo il movimento del ladro
+                if (!gameEnded) {
+                    guard.move(20); // 20% di probabilità di muoversi verso l'uscita
+                    notifyObservers();
+                    checkEndGame(); // Controlla la fine del gioco dopo il movimento della guardia
+                }
+            }
         }
     }
 
-    public void moveGuard(int dx, int dy) {
+    public void moveGuard() {
         if (!gameEnded) {
-            guard.move(dx, dy);
+            guard.move(20); // 20% di probabilità di muoversi verso l'uscita
             notifyObservers();
             checkEndGame();
         }
@@ -69,13 +84,19 @@ public class Game {
 
     private void checkEndGame() {
         // Condizioni di fine partita
-        if (matrix[thief.getY()][thief.getX()] == 7) { // 7 è il codice per il colore marrone (uscita)
+        if (thief.getX() == exitX && thief.getY() == exitY) { // Verifica se il ladro è sulla cella marrone
             endGame(true);
         } else if (thief.getX() == guard.getX() && thief.getY() == guard.getY()) {
+            endGame(false);
+        } else if (isAdjacent(thief.getX(), thief.getY(), guard.getX(), guard.getY())) {
             endGame(false);
         } else if (matrix[guard.getY()][guard.getX()] == 7) {
             endGame(false);
         }
+    }
+
+    private boolean isAdjacent(int x1, int y1, int x2, int y2) {
+        return (Math.abs(x1 - x2) == 1 && y1 == y2) || (Math.abs(y1 - y2) == 1 && x1 == x2);
     }
 
     public void endGame(boolean thiefWins) {
@@ -87,11 +108,7 @@ public class Game {
             JOptionPane.showMessageDialog(null, "Game Over! Il ladro è stato catturato o la guardia è uscita.");
         }
         // Mostra la leaderboard
-        new LeaderboardGUI().showLeaderboard();
-        // Chiude la finestra di gioco
-        if (gameFrame != null) {
-            gameFrame.dispose();
-        }
+        new LeaderboardGUI().showLeaderboard(gameFrame);
     }
 
     // Getters per la posizione del ladro e il numero di passi
@@ -131,5 +148,10 @@ public class Game {
     // Setter per il riferimento alla finestra di gioco
     public void setGameFrame(JFrame gameFrame) {
         this.gameFrame = gameFrame;
+    }
+
+    // Metodo per verificare se la guardia può muoversi
+    private boolean canMove(int x, int y) {
+        return x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length && matrix[y][x] != 1;
     }
 }
