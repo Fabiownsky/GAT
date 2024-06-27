@@ -5,12 +5,14 @@ public class Guard extends Character {
     private final Random random = new Random();
     private final Graph graph;
     private final int exitX, exitY;
+    private Game game; // Aggiungi un riferimento al gioco
 
-    public Guard(int[][] matrix, int startX, int startY, Graph graph, int exitX, int exitY) {
+    public Guard(int[][] matrix, int startX, int startY, Graph graph, int exitX, int exitY, Game game) {
         super(matrix, startX, startY);
         this.graph = graph;
         this.exitX = exitX;
         this.exitY = exitY;
+        this.game = game;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class Guard extends Character {
             }
         } else {
             // Muoviti casualmente
-            int[][] directions = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+            int[][] directions = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
             int[] dir = directions[random.nextInt(directions.length)];
             int newX = x + dir[0];
             int newY = y + dir[1];
@@ -46,6 +48,12 @@ public class Guard extends Character {
     }
 
     private void moveTo(int newX, int newY) {
+        if (newX == exitX && newY == exitY) {
+            // La guardia ha raggiunto l'uscita, termina il gioco
+            game.endGame(false);
+            return;
+        }
+
         matrix[y][x] = 0; // Supponiamo che il pavimento sia bianco (0)
         x = newX;
         y = newY;

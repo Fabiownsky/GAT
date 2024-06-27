@@ -6,7 +6,7 @@ public class GridDisplay extends JPanel implements Observer {
     public static final int PADDING = 20; // Padding costante
     private JLabel playerNameLabel;
     private JLabel stepsLabel;
-    private static boolean isColorblindMode = true; // Modalità daltonica (falsa di default)
+    private static boolean isColorblindMode = true; // Modalità daltonica (true di default)
 
     public GridDisplay(Game game) {
         this.game = game;

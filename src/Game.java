@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Game {
+    public static final int PERCENTAGE_FAST_EXIT = 100;
     private List<Observer> observers = new ArrayList<>();
     private int[][] matrix;
     private Thief thief;
@@ -40,7 +41,7 @@ public class Game {
 
         this.graph = new Graph(matrix);
         this.thief = Thief.getInstance(matrix, thiefX, thiefY);
-        this.guard = new Guard(matrix, guardX, guardY, graph, exitX, exitY);
+        this.guard = new Guard(matrix, guardX, guardY, graph, exitX, exitY, this); // Passa il riferimento del gioco
     }
 
     public void addObserver(Observer observer) {
@@ -67,7 +68,7 @@ public class Game {
                 notifyObservers();
                 checkEndGame(); // Controlla la fine del gioco dopo il movimento del ladro
                 if (!gameEnded) {
-                    guard.move(20); // 20% di probabilità di muoversi verso l'uscita
+                    guard.move(PERCENTAGE_FAST_EXIT);
                     notifyObservers();
                     checkEndGame(); // Controlla la fine del gioco dopo il movimento della guardia
                 }
@@ -91,7 +92,7 @@ public class Game {
             endGame(false);
         } else if (isAdjacent(thief.getX(), thief.getY(), guard.getX(), guard.getY())) {
             endGame(false);
-        } else if (matrix[guard.getY()][guard.getX()] == 7) {
+        } else if (guard.getX() == exitX && guard.getY() == exitY) { // Verifica se la guardia è sulla cella marrone
             endGame(false);
         }
     }
