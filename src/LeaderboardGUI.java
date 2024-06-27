@@ -25,12 +25,17 @@ public class LeaderboardGUI {
         title.setFont(new Font("Arial", Font.BOLD, 16));
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(title);
+        panel.add(Box.createRigidArea(new Dimension(0, 10))); // Spazio tra il titolo e i punteggi
 
         for (Score score : scores) {
             JLabel scoreLabel = new JLabel(score.getPlayerName() + ": " + score.getSteps());
             scoreLabel.setFont(new Font("Arial", Font.PLAIN, 14));
             scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            panel.add(scoreLabel);
+            JPanel scorePanel = new JPanel();
+            scorePanel.setLayout(new BorderLayout());
+            scorePanel.add(scoreLabel, BorderLayout.CENTER);
+            scorePanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0)); // Spazio intorno ad ogni punteggio
+            panel.add(scorePanel);
         }
 
         frame.add(panel);
