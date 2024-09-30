@@ -3,8 +3,8 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class Game {
-    public static final int PERCENTAGE_FAST_EXIT = 100;
+public class Game implements Observable {
+    public static final int PERCENTAGE_FAST_EXIT = 20;
     private List<Observer> observers = new ArrayList<>();
     private int[][] matrix;
     private Thief thief;
@@ -44,15 +44,18 @@ public class Game {
         this.guard = new Guard(matrix, guardX, guardY, graph, exitX, exitY, this); // Passa il riferimento del gioco
     }
 
+    @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
 
+    @Override
     public void removeObserver(Observer observer) {
         observers.remove(observer);
     }
 
-    private void notifyObservers() {
+    @Override
+    public void notifyObservers() {
         for (Observer observer : observers) {
             observer.update();
         }
@@ -65,12 +68,12 @@ public class Game {
             if (canMove(newX, newY)) {
                 thief.move(dx, dy);
                 steps++;
-                notifyObservers();
+                notifyObservers(); // Qui viene notificato l'osservatore
                 checkEndGame(); // Controlla la fine del gioco dopo il movimento del ladro
                 if (!gameEnded) {
                     guard.move(PERCENTAGE_FAST_EXIT);
-                    notifyObservers();
-                    checkEndGame(); // Controlla la fine del gioco dopo il movimento della guardia
+                    //notifyObservers(); // Ancora una volta per aggiornare lo stato del gioco
+                    checkEndGame();
                 }
             }
         }

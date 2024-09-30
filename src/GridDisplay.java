@@ -6,6 +6,7 @@ public class GridDisplay extends JPanel implements Observer {
     public static final int PADDING = 20; // Padding costante
     private JLabel playerNameLabel;
     private JLabel stepsLabel;
+    private StepCounter stepCounter; // Riferimento al contatore dei passi
     private static boolean isColorblindMode = true; // Modalità daltonica (true di default)
 
     public GridDisplay(Game game) {
@@ -19,6 +20,9 @@ public class GridDisplay extends JPanel implements Observer {
         this.add(legendPanel, BorderLayout.EAST);
 
         updatePlayerName(game.getPlayerName()); // Aggiorna il nome del giocatore
+        // Inizializza StepCounter passando l'etichetta stepsLabel
+        stepCounter = new StepCounter(stepsLabel);
+        game.addObserver(stepCounter); // Aggiunge StepCounter come osservatore di Game
     }
 
     public static void setColorblindMode(boolean isColorblind) {
@@ -154,15 +158,14 @@ public class GridDisplay extends JPanel implements Observer {
         }
     }
 
-    public void updateSteps(int steps) {
-        if (stepsLabel != null) {
-            stepsLabel.setText("Passi: " + steps);
-        }
-    }
+//    public void updateSteps(int steps) {
+//        if (stepsLabel != null) {
+//            stepsLabel.setText("Passi: " + steps);
+//        }
+//    }
 
     @Override
     public void update() {
-        updateSteps(game.getSteps());
         repaint();
     }
 }
