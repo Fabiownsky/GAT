@@ -57,18 +57,19 @@ public class ImageAnalyzer {
         }
     }
 
-    public static void printFirstRowRGB(String imagePath) throws IOException {
-        BufferedImage image = ImageIO.read(new File(imagePath));
-        int width = image.getWidth();
-
-        System.out.println("RGB values of the first row:");
-        for (int x = 0; x < width; x++) {
-            Color color = new Color(image.getRGB(x, 0));
-            int red = color.getRed();
-            int green = color.getGreen();
-            int blue = color.getBlue();
-            System.out.printf("(%d, %d, %d) ", red, green, blue);
-        }
-        System.out.println();
-    }
+//    Test colori prima riga
+//    public static void printFirstRowRGB(String imagePath) throws IOException {
+//        BufferedImage image = ImageIO.read(new File(imagePath));
+//        int width = image.getWidth();
+//
+//        System.out.println("RGB values of the first row:");
+//        for (int x = 0; x < width; x++) {
+//            Color color = new Color(image.getRGB(x, 0));
+//            int red = color.getRed();
+//            int green = color.getGreen();
+//            int blue = color.getBlue();
+//            System.out.printf("(%d, %d, %d) ", red, green, blue);
+//        }
+//        System.out.println();
+//    }
 }

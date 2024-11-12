@@ -2,8 +2,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Guard extends Character {
-    private final Random random = new Random();
-    public final Graph graph;
+    private final Graph graph;
     private final int exitX, exitY;
     private Game game;
     private MovementStrategy strategy;
