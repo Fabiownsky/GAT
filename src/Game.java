@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Game implements Observable {
-    public static final int PERCENTAGE_FAST_EXIT = 20;
     private List<Observer> observers = new ArrayList<>();
     private int[][] matrix;
     private Thief thief;
@@ -15,6 +14,12 @@ public class Game implements Observable {
     private JFrame gameFrame; // Riferimento alla finestra di gioco
     private Graph graph; // Rappresentazione del grafo del labirinto
     private int exitX, exitY; // Coordinate dell'uscita
+    private Direction lastThiefDirection; //Ultima direzione del ladro
+
+    //Enumerazione delle direzioni possibili del ladro
+    public enum Direction {
+        UP, DOWN, LEFT, RIGHT;
+    }
 
     public Game(int[][] matrix) {
         Thief.resetInstance(); // Resetta l'istanza del ladro all'inizio di una nuova partita
@@ -66,26 +71,42 @@ public class Game implements Observable {
             int newX = thief.getX() + dx;
             int newY = thief.getY() + dy;
             if (canMove(newX, newY)) {
+                int cellColor = matrix[newY][newX];
+
+                if (dx == 1 && dy == 0) {
+                    lastThiefDirection = Direction.RIGHT;
+                } else if (dx == -1 && dy == 0) {
+                    lastThiefDirection = Direction.LEFT;
+                } else if (dx == 0 && dy == 1) {
+                    lastThiefDirection = Direction.DOWN;
+                } else if (dx == 0 && dy == -1) {
+                    lastThiefDirection = Direction.UP;
+                }
+
                 thief.move(dx, dy);
                 steps++;
-                notifyObservers(); // Qui viene notificato l'osservatore
-                checkEndGame(); // Controlla la fine del gioco dopo il movimento del ladro
+                notifyObservers();
+
+                // Applica potenziamenti in base al colore della cella
+                if (cellColor == 2) { // Cella rossa
+                    guard.setStrategy(new MoveToExitStrategy());
+                } else if (cellColor == 3) { // Cella gialla
+                    guard.setStrategy(new RandomMoveStrategy(), 10); // 10 turni di movimento casuale
+                } else if (cellColor == 4) { // Cella verde
+                    guard.setStrategy(new OppositeMoveStrategy(), 10); // 10 turni di movimento opposto
+                }
+
+                checkEndGame();
                 if (!gameEnded) {
-                    guard.move(PERCENTAGE_FAST_EXIT);
-                    //notifyObservers(); // Ancora una volta per aggiornare lo stato del gioco
+                    guard.move();
+                    notifyObservers();
                     checkEndGame();
                 }
             }
         }
     }
 
-    public void moveGuard() {
-        if (!gameEnded) {
-            guard.move(20); // 20% di probabilità di muoversi verso l'uscita
-            notifyObservers();
-            checkEndGame();
-        }
-    }
+
 
     private void checkEndGame() {
         // Condizioni di fine partita
@@ -139,6 +160,10 @@ public class Game implements Observable {
 
     public int[][] getMatrix() {
         return matrix;
+    }
+
+    public Direction getLastThiefDirection() {
+        return lastThiefDirection;
     }
 
     // Getter e setter per il nome del giocatore

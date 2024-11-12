@@ -3,9 +3,12 @@ import java.util.Random;
 
 public class Guard extends Character {
     private final Random random = new Random();
-    private final Graph graph;
+    public final Graph graph;
     private final int exitX, exitY;
-    private Game game; // Aggiungi un riferimento al gioco
+    private Game game;
+    private MovementStrategy strategy;
+    private int powerUpTurnsLeft = 0; // Conteggio dei turni per i potenziamenti
+    private int moveProbability = 20; // Imposta qui la probabilità di default - 20%
 
     public Guard(int[][] matrix, int startX, int startY, Graph graph, int exitX, int exitY, Game game) {
         super(matrix, startX, startY);
@@ -13,50 +16,74 @@ public class Guard extends Character {
         this.exitX = exitX;
         this.exitY = exitY;
         this.game = game;
+        this.strategy = new DefaultMoveStrategy(); // Imposta la strategia di default
     }
 
-    @Override
-    public void move(int dx, int dy) {
-        int newX = x + dx;
-        int newY = y + dy;
-        if (canMove(newX, newY)) {
-            moveTo(newX, newY);
+    public void setMoveProbability(int probability) {
+        this.moveProbability = probability;
+    }
+
+
+    // Imposta una strategia con durata specifica
+    public void setStrategy(MovementStrategy strategy, int turns) {
+        this.strategy = strategy;
+        this.powerUpTurnsLeft = turns;
+    }
+
+    // Imposta una strategia permanente (ad es. verso l'uscita)
+    public void setStrategy(MovementStrategy strategy) {
+        this.strategy = strategy;
+        this.powerUpTurnsLeft = -1; // -1 indica durata infinita
+    }
+
+    public void move() {
+        if (powerUpTurnsLeft == 0) {
+            strategy = new DefaultMoveStrategy(); // Ritorna alla strategia di default
+        } else if (powerUpTurnsLeft > 0) {
+            powerUpTurnsLeft--; // Decrementa i turni rimanenti
         }
+        strategy.move(this); // Muove la guardia usando la strategia corrente
     }
 
-    public void move(int k) {
-        int chance = random.nextInt(100);
-        if (chance < k) {
-            // Usa Dijkstra per trovare il percorso più breve verso l'uscita
-            List<Integer> path = graph.shortestPath(x, y, exitX, exitY);
-            if (path.size() > 1) {
-                int next = path.get(1);
-                int newX = next % matrix[0].length;
-                int newY = next / matrix[0].length;
-                moveTo(newX, newY);
-            }
-        } else {
-            // Muoviti casualmente
-            int[][] directions = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
-            int[] dir = directions[random.nextInt(directions.length)];
-            int newX = x + dir[0];
-            int newY = y + dir[1];
-            if (canMove(newX, newY)) {
-                moveTo(newX, newY);
-            }
-        }
-    }
-
-    private void moveTo(int newX, int newY) {
+    // Metodo per muovere la guardia a una nuova posizione
+    public void moveTo(int newX, int newY) {
         if (newX == exitX && newY == exitY) {
             // La guardia ha raggiunto l'uscita, termina il gioco
             game.endGame(false);
             return;
         }
-
-        matrix[y][x] = 0; // Supponiamo che il pavimento sia bianco (0)
+        matrix[y][x] = 0; // Aggiorna la vecchia posizione della guardia (0 = pavimento)
         x = newX;
         y = newY;
-        matrix[y][x] = 5; // Aggiorna la posizione della guardia nella matrice
+        matrix[y][x] = 5; // Aggiorna la nuova posizione della guardia
+    }
+
+    // Ottiene la posizione corrente del ladro per OppositeMoveStrategy
+    public int getThiefX() {
+        return Thief.getInstance().getX();
+    }
+
+    public int getThiefY() {
+        return Thief.getInstance().getY();
+    }
+
+    public Graph getGraph() {
+        return this.graph;
+    }
+
+    public int getExitX() {
+        return this.exitX;
+    }
+
+    public int getExitY() {
+        return this.exitY;
+    }
+
+    public Game getGame(){
+        return this.game;
+    }
+
+    public int getMoveProbability() {
+        return this.moveProbability;
     }
 }

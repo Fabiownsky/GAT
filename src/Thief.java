@@ -6,9 +6,18 @@ public class Thief extends Character {
         matrix[startY][startX] = 6; // Imposta la posizione iniziale del ladro (arancione)
     }
 
+    //Quando non so ancora se la istanza è stata creata
     public static Thief getInstance(int[][] matrix, int startX, int startY) {
         if (instance == null) {
             instance = new Thief(matrix, startX, startY);
+        }
+        return instance;
+    }
+
+    //Sono sicuro che la istanza sia già stata creata
+    public static Thief getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("L'istanza del ladro non è stata ancora creata.");
         }
         return instance;
     }
@@ -17,7 +26,6 @@ public class Thief extends Character {
         instance = null;
     }
 
-    @Override
     public void move(int dx, int dy) {
         int newX = x + dx;
         int newY = y + dy;
