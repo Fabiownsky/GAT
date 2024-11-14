@@ -1,5 +1,6 @@
 import java.util.Random;
 
+//Classe per gestire il movimento casuale tramite Strategy
 public class RandomMoveStrategy implements MovementStrategy {
     private final Random random = new Random();
 

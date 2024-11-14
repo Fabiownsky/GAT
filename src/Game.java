@@ -3,18 +3,19 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+//Classe che gestisce la logica del gioco, le interazioni e i movimenti tra Guardia e Ladro e notificatore agli osservatori
 public class Game implements Observable {
-    private List<Observer> observers = new ArrayList<>();
-    private int[][] matrix;
+    private List<Observer> observers = new ArrayList<>(); //ArrayList per memorizzare gli Observer
+    private int[][] matrix; //Matrice del labirinto
     private Thief thief;
     private Guard guard;
-    private int steps;
     private String playerName; // Aggiungi il nome del giocatore
     private boolean gameEnded; // Indica se il gioco è terminato
     private JFrame gameFrame; // Riferimento alla finestra di gioco
     private Graph graph; // Rappresentazione del grafo del labirinto
     private int exitX, exitY; // Coordinate dell'uscita
     private Direction lastThiefDirection; //Ultima direzione del ladro
+    private StepCounter stepCounter;
 
     //Enumerazione delle direzioni possibili del ladro
     public enum Direction {
@@ -22,11 +23,10 @@ public class Game implements Observable {
     }
 
     public Game(int[][] matrix) {
-        Thief.resetInstance(); // Resetta l'istanza del ladro all'inizio di una nuova partita
+        Thief.resetInstance(); // Resetta l'istanza del ladro all'inizio di ogni partita
         this.matrix = matrix;
-        this.steps = 0;
         this.gameEnded = false;
-
+        this.stepCounter = StepCounter.getInstance();
         // Trova la posizione iniziale del ladro (arancione), della guardia (blu) e dell'uscita (marrone)
         int thiefX = -1, thiefY = -1, guardX = -1, guardY = -1;
         for (int y = 0; y < matrix.length; y++) {
@@ -44,21 +44,24 @@ public class Game implements Observable {
             }
         }
 
-        this.graph = new Graph(matrix);
+        this.graph = new Graph(matrix); //Inizializza il grafo basato sulla griglia matrix
         this.thief = Thief.getInstance(matrix, thiefX, thiefY);
         this.guard = new Guard(matrix, guardX, guardY, graph, exitX, exitY, this); // Passa il riferimento del gioco
     }
 
+    //Implementa il metodo addObserver per aggiungere un Observer
     @Override
     public void addObserver(Observer observer) {
         observers.add(observer);
     }
 
+    //Implementa il metodo removeObserver per rimuovere un Observer
     @Override
     public void removeObserver(Observer observer) {
         observers.remove(observer);
     }
 
+    //Implementa il metodo per notificare tutti gli Observer in attesa tramite update()
     @Override
     public void notifyObservers() {
         for (Observer observer : observers) {
@@ -66,13 +69,16 @@ public class Game implements Observable {
         }
     }
 
+    //Metodo per la gestione del movimento del ladro
     public void moveThief(int dx, int dy) {
         if (!gameEnded) {
+            //Calcola le nuove coordinate
             int newX = thief.getX() + dx;
             int newY = thief.getY() + dy;
             if (canMove(newX, newY)) {
                 int cellColor = matrix[newY][newX];
 
+                //Salva l'ultima direzione del ladro
                 if (dx == 1 && dy == 0) {
                     lastThiefDirection = Direction.RIGHT;
                 } else if (dx == -1 && dy == 0) {
@@ -84,9 +90,7 @@ public class Game implements Observable {
                 }
 
                 thief.move(dx, dy);
-                steps++;
-                notifyObservers();
-
+                //Modifica la strategia in base alla cella attravesata dal Ladro
                 // Applica potenziamenti in base al colore della cella
                 if (cellColor == 2) { // Cella rossa
                     guard.setStrategy(new MoveToExitStrategy());
@@ -96,7 +100,9 @@ public class Game implements Observable {
                     guard.setStrategy(new OppositeMoveStrategy(), 10); // 10 turni di movimento opposto
                 }
 
+                //Controlla se il gioco è terminato
                 checkEndGame();
+                //Se non è finita, procede al movimento della guardia, notificare gli observer e ricontrollare la fine della partita
                 if (!gameEnded) {
                     guard.move();
                     notifyObservers();
@@ -106,8 +112,7 @@ public class Game implements Observable {
         }
     }
 
-
-
+    //Metodo per controllare se le condizioni di fine partita sono rispettate, ed indicando se il Ladro ha vinto (thiefWins = true) o ha perso (thiefWins = false)
     private void checkEndGame() {
         // Condizioni di fine partita
         if (thief.getX() == exitX && thief.getY() == exitY) { // Verifica se il ladro è sulla cella marrone
@@ -121,41 +126,33 @@ public class Game implements Observable {
         }
     }
 
+
     private boolean isAdjacent(int x1, int y1, int x2, int y2) {
         return (Math.abs(x1 - x2) == 1 && y1 == y2) || (Math.abs(y1 - y2) == 1 && x1 == x2);
     }
 
+    //Metodo che viene chiamato una volta che la partita è terminata
     public void endGame(boolean thiefWins) {
         gameEnded = true;
         if (thiefWins) {
-            LeaderboardGUI.addScore(playerName, steps);
+            //Mostra il messaggio di congratulazioni nel caso di vittoria e aggiunge il punteggio
+            LeaderboardGUI.addScore(playerName, stepCounter.getSteps());
             JOptionPane.showMessageDialog(null, "Congratulazioni " + playerName + "! Hai vinto!");
         } else {
+            //Mostra messaggio di sconfitta nel caso di sconfitta
             JOptionPane.showMessageDialog(null, "Game Over! Il ladro è stato catturato o la guardia è uscita.");
         }
         // Mostra la leaderboard
         new LeaderboardGUI().showLeaderboard(gameFrame);
     }
 
-    // Getters per la posizione del ladro e il numero di passi
+    // Getters per la posizione del ladro
     public int getThiefX() {
         return thief.getX();
     }
 
     public int getThiefY() {
         return thief.getY();
-    }
-
-    public int getGuardX() {
-        return guard.getX();
-    }
-
-    public int getGuardY() {
-        return guard.getY();
-    }
-
-    public int getSteps() {
-        return steps;
     }
 
     public int[][] getMatrix() {

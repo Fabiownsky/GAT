@@ -18,10 +18,10 @@ public class Guard extends Character {
         this.strategy = new DefaultMoveStrategy(); // Imposta la strategia di default
     }
 
+    //Setter per impostare la difficoltà
     public void setMoveProbability(int probability) {
         this.moveProbability = probability;
     }
-
 
     // Imposta una strategia con durata specifica
     public void setStrategy(MovementStrategy strategy, int turns) {
@@ -32,9 +32,10 @@ public class Guard extends Character {
     // Imposta una strategia permanente (ad es. verso l'uscita)
     public void setStrategy(MovementStrategy strategy) {
         this.strategy = strategy;
-        this.powerUpTurnsLeft = -1; // -1 indica durata infinita
+        this.powerUpTurnsLeft = -1; // -1 indica durata infinita o finché non viene preso un altro potenziamento
     }
 
+    // Metodo per gestire quale strategia usare e
     public void move() {
         if (powerUpTurnsLeft == 0) {
             strategy = new DefaultMoveStrategy(); // Ritorna alla strategia di default
@@ -44,7 +45,7 @@ public class Guard extends Character {
         strategy.move(this); // Muove la guardia usando la strategia corrente
     }
 
-    // Metodo per muovere la guardia a una nuova posizione
+    // Metodo per muovere la guardia a una nuova posizione e controllo di fine partita
     public void moveTo(int newX, int newY) {
         if (newX == exitX && newY == exitY) {
             // La guardia ha raggiunto l'uscita, termina il gioco
@@ -55,15 +56,6 @@ public class Guard extends Character {
         x = newX;
         y = newY;
         matrix[y][x] = 5; // Aggiorna la nuova posizione della guardia
-    }
-
-    // Ottiene la posizione corrente del ladro per OppositeMoveStrategy
-    public int getThiefX() {
-        return Thief.getInstance().getX();
-    }
-
-    public int getThiefY() {
-        return Thief.getInstance().getY();
     }
 
     public Graph getGraph() {

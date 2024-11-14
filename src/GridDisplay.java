@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 
+//Classe che gestisce la visualizzazione della griglia di gioco
 public class GridDisplay extends JPanel implements Observer {
     private Game game;
-    public static final int PADDING = 20; // Padding costante
+    public static final int PADDING = 20; // Padding di default
     private JLabel playerNameLabel;
     private JLabel stepsLabel;
     private StepCounter stepCounter; // Riferimento al contatore dei passi
@@ -11,28 +12,34 @@ public class GridDisplay extends JPanel implements Observer {
 
     public GridDisplay(Game game) {
         this.game = game;
+        //Si aggiunge alla lista degli Observers
         game.addObserver(this);
 
         // Inizializza i componenti GUI
         this.setLayout(new BorderLayout());
 
+        //Aggiunge la legenda
         JPanel legendPanel = createLegendPanel();
         this.add(legendPanel, BorderLayout.EAST);
 
         updatePlayerName(game.getPlayerName()); // Aggiorna il nome del giocatore
+
         // Inizializza StepCounter passando l'etichetta stepsLabel
-        stepCounter = new StepCounter(stepsLabel);
-        game.addObserver(stepCounter); // Aggiunge StepCounter come osservatore di Game
+        stepCounter = StepCounter.getInstance();
+        stepCounter.setStepsLabel(stepsLabel);
+        game.addObserver(stepCounter); // Aggiunge StepCounter come Observer di Game
     }
 
     public static void setColorblindMode(boolean isColorblind) {
         isColorblindMode = isColorblind;
     }
 
+    //Metodo richiamato ogni volta che repaint() viene invocato
     @Override
     protected void paintComponent(Graphics g) {
+        //Inizializzazione del
         super.paintComponent(g);
-
+        //Prende la matrice aggiornata
         int[][] matrix = game.getMatrix();
         int cellSize = 10; // Dimensione delle celle
         int spacing = 2;   // Spaziatura tra le celle
@@ -44,6 +51,7 @@ public class GridDisplay extends JPanel implements Observer {
                 for (int x = 0; x < matrix[y].length; x++) {
                     int value = matrix[y][x];
                     g.setColor(getColor(value));
+                    //Crea il rettangolo riempito col colore appropriato
                     g.fillRect(PADDING + x * (cellSize + spacing), PADDING + y * (cellSize + spacing), cellSize, cellSize);
 
                     if (isColorblindMode && value >= 2 && value <= 7) { // Solo per i colori specificati in modalità daltonica
@@ -66,7 +74,7 @@ public class GridDisplay extends JPanel implements Observer {
             case 2: return Color.RED;    // red
             case 3: return Color.YELLOW; // yellow
             case 4: return Color.GREEN;  // green
-            case 5: return Color.BLUE;   // blue (poliziotto)
+            case 5: return Color.BLUE;   // blue (guardia)
             case 6: return Color.ORANGE; // orange (ladro)
             case 7: return new Color(139, 69, 19); // brown
             default: return Color.GRAY;  // colore non specificato
@@ -85,6 +93,7 @@ public class GridDisplay extends JPanel implements Observer {
         }
     }
 
+    //Metodo per aggiungere le lettere all'interno delle figure se è abilitata la modalità colorBlind
     private void drawCenteredString(Graphics g, String text, int x, int y, int width, int height) {
         FontMetrics metrics = g.getFontMetrics();
         int centerX = x + (width - metrics.stringWidth(text)) / 2;
@@ -102,7 +111,7 @@ public class GridDisplay extends JPanel implements Observer {
         g.drawString(text, centerX, centerY);
     }
 
-    public JPanel createLegendPanel() {
+    private JPanel createLegendPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -137,6 +146,7 @@ public class GridDisplay extends JPanel implements Observer {
         return panel;
     }
 
+    //Crea un singolo elemento della legenda
     private JPanel createLegendItem(String name, Color color) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
@@ -151,19 +161,14 @@ public class GridDisplay extends JPanel implements Observer {
         panel.add(label);
         return panel;
     }
-
+    //Modifica l'etichetta del nome del giocatore nel pannello laterale
     public void updatePlayerName(String playerName) {
         if (playerNameLabel != null) {
             playerNameLabel.setText(playerName);
         }
     }
 
-//    public void updateSteps(int steps) {
-//        if (stepsLabel != null) {
-//            stepsLabel.setText("Passi: " + steps);
-//        }
-//    }
-
+    //Quando viene notificato un cambiamento dello stato di game (tramite Observer) viene invocato repaint()
     @Override
     public void update() {
         repaint();

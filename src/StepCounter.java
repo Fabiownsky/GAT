@@ -1,26 +1,39 @@
 import javax.swing.*;
 
 public class StepCounter implements Observer {
-    private int steps; // Numero dei passi
-    private JLabel stepsLabel; // Etichetta da aggiornare
+    private static StepCounter instance;
+    private int steps;
+    private JLabel stepsLabel;
 
-    // Costruttore che prende in ingresso l'etichetta stepsLabel
-    public StepCounter(JLabel stepsLabel) {
+    // Costruttore privato per il Singleton
+    private StepCounter() {
         this.steps = 0;
-        this.stepsLabel = stepsLabel;
-        updateSteps(); // Aggiorna l'etichetta all'inizio
     }
 
-    // Metodo update chiamato quando Game notifica un cambiamento
+    // Metodo statico per ottenere l'istanza di StepCounter
+    public static StepCounter getInstance() {
+        if (instance == null) {
+            instance = new StepCounter();
+        }
+        return instance;
+    }
+
+    //Imposta il Label su cui aggiornare i passi
+    public void setStepsLabel(JLabel stepsLabel) {
+        this.stepsLabel = stepsLabel;
+        updateSteps();
+    }
+
     @Override
     public void update() {
-        steps++; // Incrementa il contatore dei passi
-        updateSteps(); // Aggiorna l'etichetta stepsLabel
+        steps++;
+        updateSteps();
     }
 
-    // Metodo per aggiornare l'etichetta dei passi
     private void updateSteps() {
-        stepsLabel.setText("Passi: " + steps); // Aggiorna il testo dell'etichetta
+        if (stepsLabel != null) {
+            stepsLabel.setText("Passi: " + steps);
+        }
     }
 
     public int getSteps() {
@@ -28,7 +41,7 @@ public class StepCounter implements Observer {
     }
 
     public void resetSteps() {
-        steps = 0; // Resetta il contatore
-        updateSteps(); // Aggiorna l'etichetta con il reset
+        steps = 0;
+        updateSteps();
     }
 }

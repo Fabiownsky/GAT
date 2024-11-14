@@ -1,3 +1,4 @@
+//Classe che tiene traccia del punteggio del giocatore
 public class Score implements Comparable<Score> {
     private String playerName;
     private int steps;

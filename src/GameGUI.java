@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+//Classe responsabile della creazione e della gestione della finestra di gioco
 public class GameGUI {
     private Game game;
     private GridDisplay gridDisplay;
@@ -12,8 +13,9 @@ public class GameGUI {
         this.gridDisplay = new GridDisplay(game);
     }
 
+    //Crea la finestra
     public JFrame createAndShowGui() {
-        JFrame frame = new JFrame("Grid Display");
+        JFrame frame = new JFrame("Guard And Thieves");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -29,6 +31,7 @@ public class GameGUI {
             frame.setSize(800, 600); // Dimensione predefinita
         }
 
+        //Aggiunge dei listener alla finestra per gestire gli input del ladro
         frame.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {

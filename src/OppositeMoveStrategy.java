@@ -1,10 +1,13 @@
+//Questa classe gestisce l'algoritmo del movimento opposto al Ladro
 public class OppositeMoveStrategy implements MovementStrategy {
 
     @Override
     public void move(Guard guard) {
 
+        //Prende l'ultima direzione del Ladro nel gioco e va nella direzione opposta
         Game.Direction lastThiefDirection = guard.getGame().getLastThiefDirection();
         int[] chosenDirection;
+        //Creo i casi delle direzioni opposte a quelle del ladro
         int[][] oppositeDirections = {
                 {0, 1},  // Opposto di UP
                 {0, -1}, // Opposto di DOWN
@@ -29,6 +32,7 @@ public class OppositeMoveStrategy implements MovementStrategy {
                 return;
         }
 
+        //Aggiorno la nuova posizione della guardia
         int newX = guard.getX() + chosenDirection[0];
         int newY = guard.getY() + chosenDirection[1];
 

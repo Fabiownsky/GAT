@@ -8,7 +8,8 @@ public class MainMenu {
     private JFrame frame;
 
     public MainMenu() {
-        frame = new JFrame("Main Menu");
+        //Creo la schermata di inizio
+        frame = new JFrame("GAT: Main Menu");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
@@ -19,15 +20,16 @@ public class MainMenu {
         playButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String playerName = JOptionPane.showInputDialog(frame, "Enter your name:");
+                //Input nome del giocatore
+                String playerName = JOptionPane.showInputDialog(frame, "Inserisci il tuo nome:");
                 if (playerName != null && !playerName.trim().isEmpty()) {
                     try {
                         Thief.resetInstance(); // Resetta l'istanza del ladro all'inizio di una nuova partita
-                        int[][] matrix = loadMatrix();
-                        Game game = new Game(matrix);
+                        int[][] matrix = loadMatrix(); //Crea la matrice di gioco
+                        Game game = new Game(matrix); //Crea un'istanza di gioco
                         game.setPlayerName(playerName);
-                        GameGUI gameGUI = new GameGUI(game);
-                        game.setGameFrame(gameGUI.createAndShowGui());
+                        GameGUI gameGUI = new GameGUI(game); //Viene creata l'interfaccia di gioco associata all'istanza del gioco
+                        game.setGameFrame(gameGUI.createAndShowGui()); //Viene visualizzata l'interfaccia
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -36,6 +38,7 @@ public class MainMenu {
         });
         panel.add(playButton);
 
+        //Viene aggiunto il collegamento alla leaderboard
         JButton leaderboardButton = new JButton("Leaderboard");
         leaderboardButton.addActionListener(new ActionListener() {
             @Override
@@ -52,7 +55,7 @@ public class MainMenu {
     }
 
     private int[][] loadMatrix() throws IOException {
-        String imagePath = "src/assets/lab50x50.png"; // Imposta qui il percorso corretto dell'immagine
+        String imagePath = "src/assets/lab50x50.png"; // Imposta qui il percorso corretto dell'immagine da trasformare in mappa
         return ImageAnalyzer.analyzeImage(imagePath);
     }
 

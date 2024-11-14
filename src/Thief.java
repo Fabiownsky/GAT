@@ -1,6 +1,7 @@
 public class Thief extends Character {
     private static Thief instance;
 
+    //Costruttore privato perché Thief è un Singleton
     private Thief(int[][] matrix, int startX, int startY) {
         super(matrix, startX, startY);
         matrix[startY][startX] = 6; // Imposta la posizione iniziale del ladro (arancione)
@@ -26,6 +27,7 @@ public class Thief extends Character {
         instance = null;
     }
 
+    //Metodo che permette di capire come aggiornare la matrice a seconda del movimento del ladro
     public void move(int dx, int dy) {
         int newX = x + dx;
         int newY = y + dy;

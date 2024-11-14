@@ -1,3 +1,4 @@
+//Classe astratta per la Guardia ed il Ladro
 public abstract class Character {
     protected int[][] matrix;
     protected int x, y;
